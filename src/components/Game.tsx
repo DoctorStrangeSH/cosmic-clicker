@@ -27,6 +27,8 @@ import { TradeMarket } from './TradeMarket';
 import { SocialHub } from './SocialHub';
 import { SettingsPanel } from './SettingsPanel';
 import { OfflineEarningsModal } from './OfflineEarningsModal';
+import { ParticleSystem } from './ParticleSystem';
+import { Starfield } from './Starfield';
 
 interface FloatingNumber {
   id: number;
@@ -47,7 +49,8 @@ export const Game: React.FC = () => {
   const saveSystemRef = useRef<SaveSystem>();
   const [floatingNumbers, setFloatingNumbers] = useState<FloatingNumber[]>([]);
   const [activeModal, setActiveModal] = useState<ModalType | null>(null);
-  const [saveSystem, setSaveSystem] = useState<SaveSystem | null>(null);
+  const [showOfflineModal, setShowOfflineModal] = useState(false);
+  const [offlineEarnings, setOfflineEarnings] = useState({ seconds: 0, crystals: 0 });
   const nextIdRef = useRef(0);
   
   const removeFloatingNumber = useCallback((id: number) => {
@@ -59,10 +62,18 @@ export const Game: React.FC = () => {
     clickSystemRef.current = new ClickSystem();
     upgradeSystemRef.current = new UpgradeSystem();
     saveSystemRef.current = new SaveSystem();
-    setSaveSystem(saveSystemRef.current);
     
     // Загружаем сохранение
-    saveSystemRef.current.load();
+    const hasSave = saveSystemRef.current.load();
+    
+    // Проверяем оффлайн-заработок
+    if (hasSave) {
+      const earnings = saveSystemRef.current.calculateOfflineEarnings();
+      if (earnings.crystals > 0) {
+        setOfflineEarnings(earnings);
+        setShowOfflineModal(true);
+      }
+    }
     
     // Запускаем игровой цикл
     const gameLoop = new GameLoop(
@@ -80,9 +91,6 @@ export const Game: React.FC = () => {
     );
     
     gameLoop.start();
-    
-    // Сохраняем сразу после загрузки
-    saveSystemRef.current.save();
     
     const unsubscribeClick = eventBus.on('click:performed', (data) => {
       const id = nextIdRef.current++;
@@ -124,6 +132,13 @@ export const Game: React.FC = () => {
     setActiveModal(modal as ModalType);
   };
   
+  const handleClaimOffline = () => {
+    if (saveSystemRef.current) {
+      saveSystemRef.current.applyOfflineEarnings();
+      setShowOfflineModal(false);
+    }
+  };
+  
   const getModalTitle = (modal: ModalType): string => {
     const titles: Record<ModalType, string> = {
       buildings: '🏗️ Здания',
@@ -144,8 +159,20 @@ export const Game: React.FC = () => {
     return titles[modal];
   };
   
+  const formatTime = (seconds: number): string => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    
+    if (hours > 0) return `${hours}ч ${minutes}м`;
+    if (minutes > 0) return `${minutes}м ${secs}с`;
+    return `${secs}с`;
+  };
+  
   return (
     <div className="game-container">
+      <Starfield />
+      <ParticleSystem />
       <ResourceDisplay />
       
       <div className="planet-click-area" onClick={handlePlanetClick}>
@@ -183,6 +210,41 @@ export const Game: React.FC = () => {
           ))}
         </AnimatePresence>
       </div>
+      
+      {/* Оффлайн-заработок модалка */}
+      <AnimatePresence>
+        {showOfflineModal && (
+          <motion.div
+            className="offline-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="offline-modal"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+            >
+              <div className="offline-icon">🌙</div>
+              <h2>Пока вас не было...</h2>
+              <p className="offline-text">
+                Ваши здания работали <strong>{formatTime(offlineEarnings.seconds)}</strong>
+              </p>
+              <div className="offline-earnings">
+                <span className="crystal-icon">💎</span>
+                <span className="earnings-amount">
+                  +{offlineEarnings.crystals.toLocaleString()}
+                </span>
+              </div>
+              <p className="offline-note">(50% эффективность оффлайн-режима)</p>
+              <button className="claim-button" onClick={handleClaimOffline}>
+                Забрать!
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
       {/* Нижняя навигация */}
       <div className="bottom-nav">
@@ -258,9 +320,6 @@ export const Game: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      
-      {/* Оффлайн-заработок */}
-      {saveSystem && <OfflineEarningsModal saveSystem={saveSystem} />}
       
       <AchievementPopup />
       <EventSystem />
