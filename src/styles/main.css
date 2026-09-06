@@ -1424,3 +1424,100 @@ body {
 .settings-menu-item:active {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* Оффлайн-заработок */
+.offline-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.offline-modal {
+  background: linear-gradient(135deg, #1a1a3e 0%, #2a2a5e 100%);
+  border-radius: 25px;
+  padding: 30px;
+  text-align: center;
+  max-width: 350px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(100, 100, 200, 0.3);
+}
+
+.offline-icon {
+  font-size: 4em;
+  margin-bottom: 15px;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.offline-modal h2 {
+  margin: 0 0 15px 0;
+  font-size: 1.5em;
+  color: #ffd700;
+}
+
+.offline-text {
+  font-size: 1em;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.offline-earnings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 15px;
+}
+
+.crystal-icon {
+  font-size: 2em;
+}
+
+.earnings-amount {
+  font-size: 2em;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.offline-note {
+  font-size: 0.8em;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.claim-button {
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+  color: #1a1a3e;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  width: 100%;
+  transition: all 0.3s;
+}
+
+.claim-button:active {
+  transform: scale(0.95);
+}

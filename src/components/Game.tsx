@@ -26,6 +26,7 @@ import { ProfessionPanel } from './ProfessionPanel';
 import { TradeMarket } from './TradeMarket';
 import { SocialHub } from './SocialHub';
 import { SettingsPanel } from './SettingsPanel';
+import { OfflineEarningsModal } from './OfflineEarningsModal';
 
 interface FloatingNumber {
   id: number;
@@ -46,6 +47,7 @@ export const Game: React.FC = () => {
   const saveSystemRef = useRef<SaveSystem>();
   const [floatingNumbers, setFloatingNumbers] = useState<FloatingNumber[]>([]);
   const [activeModal, setActiveModal] = useState<ModalType | null>(null);
+  const [saveSystem, setSaveSystem] = useState<SaveSystem | null>(null);
   const nextIdRef = useRef(0);
   
   const removeFloatingNumber = useCallback((id: number) => {
@@ -57,12 +59,18 @@ export const Game: React.FC = () => {
     clickSystemRef.current = new ClickSystem();
     upgradeSystemRef.current = new UpgradeSystem();
     saveSystemRef.current = new SaveSystem();
+    setSaveSystem(saveSystemRef.current);
     
+    // Загружаем сохранение
     saveSystemRef.current.load();
     
+    // Запускаем игровой цикл
     const gameLoop = new GameLoop(
       (deltaTime) => {
         useGameStore.getState().addEnergy(deltaTime);
+        useGameStore.setState((s) => {
+          s.stats.playTime += deltaTime;
+        });
       },
       () => {
         const production = buildingSystemRef.current?.getTotalProduction() || 0;
@@ -72,6 +80,9 @@ export const Game: React.FC = () => {
     );
     
     gameLoop.start();
+    
+    // Сохраняем сразу после загрузки
+    saveSystemRef.current.save();
     
     const unsubscribeClick = eventBus.on('click:performed', (data) => {
       const id = nextIdRef.current++;
@@ -107,6 +118,10 @@ export const Game: React.FC = () => {
   
   const closeModal = () => {
     setActiveModal(null);
+  };
+  
+  const handleNavigate = (modal: string) => {
+    setActiveModal(modal as ModalType);
   };
   
   const getModalTitle = (modal: ModalType): string => {
@@ -169,7 +184,7 @@ export const Game: React.FC = () => {
         </AnimatePresence>
       </div>
       
-      {/* Одна строка навигации */}
+      {/* Нижняя навигация */}
       <div className="bottom-nav">
         <button className="nav-button" onClick={() => openModal('buildings')}>
           <span className="icon">🏗️</span>
@@ -237,12 +252,15 @@ export const Game: React.FC = () => {
                 {activeModal === 'social' && <SocialHub />}
                 {activeModal === 'quests' && <QuestPanel />}
                 {activeModal === 'prestige' && <PrestigeModal />}
-                {activeModal === 'settings' && <SettingsPanel />}
+                {activeModal === 'settings' && <SettingsPanel onNavigate={handleNavigate} />}
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Оффлайн-заработок */}
+      {saveSystem && <OfflineEarningsModal saveSystem={saveSystem} />}
       
       <AchievementPopup />
       <EventSystem />
