@@ -12,14 +12,6 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     minify: 'esbuild',
-    assetsDir: 'assets',
-    rollupOptions: {
-      output: {
-        manualChunks: undefined, // Убираем manualChunks для избежания проблем
-        entryFileNames: 'assets/[name].js',
-        chunkFileNames: 'assets/[name].js',
-        assetFileNames: 'assets/[name][extname]'
-      }
-    }
+    assetsDir: 'assets'
   }
 });
