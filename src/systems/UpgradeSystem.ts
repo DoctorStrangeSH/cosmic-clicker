@@ -28,10 +28,6 @@ export class UpgradeSystem {
     eventBus.on('upgrade:purchase', (data) => {
       this.purchaseUpgrade(data.upgradeId);
     });
-    
-    eventBus.on('game:tick', () => {
-      this.applyProductionUpgrades();
-    });
   }
   
   private initializeAutoClickers() {
@@ -96,47 +92,28 @@ export class UpgradeSystem {
   }
   
   private applyUpgradeEffect(upgrade: Upgrade) {
-    const state = useGameStore.getState();
-    
-    switch (upgrade.effect.type) {
-      case 'addClick':
-        state.multipliers.clickMultiplier += upgrade.effect.value;
-        break;
-      case 'multiplyClick':
-        state.multipliers.clickMultiplier *= upgrade.effect.value;
-        break;
-      case 'addCritChance':
-        // Применяется в ClickSystem
-        break;
-      case 'multiplyCrit':
-        state.multipliers.critMultiplier *= upgrade.effect.value;
-        break;
-      case 'multiplyProduction':
-        state.multipliers.productionMultiplier *= upgrade.effect.value;
-        break;
-      case 'addEnergy':
-        state.resources.maxEnergy += upgrade.effect.value;
-        break;
-      case 'multiplyEnergy':
-        state.resources.maxEnergy *= upgrade.effect.value;
-        break;
-      case 'autoClick':
-        this.initializeAutoClickers();
-        break;
-    }
-  }
-  
-  private applyProductionUpgrades() {
-    const state = useGameStore.getState();
-    let productionMultiplier = 1;
-    
-    if (state.upgrades['energy_field']) productionMultiplier *= 1.5;
-    if (state.upgrades['quantum_field']) productionMultiplier *= 2;
-    if (state.upgrades['time_field']) productionMultiplier *= 3;
-    if (state.upgrades['space_field']) productionMultiplier *= 5;
-    if (state.upgrades['universal_field']) productionMultiplier *= 10;
-    
-    state.multipliers.productionMultiplier = productionMultiplier;
+    useGameStore.setState((state) => {
+      switch (upgrade.effect.type) {
+        case 'addClick':
+          state.multipliers.clickMultiplier += upgrade.effect.value;
+          break;
+        case 'multiplyClick':
+          state.multipliers.clickMultiplier *= upgrade.effect.value;
+          break;
+        case 'multiplyCrit':
+          state.multipliers.critMultiplier *= upgrade.effect.value;
+          break;
+        case 'multiplyProduction':
+          state.multipliers.productionMultiplier *= upgrade.effect.value;
+          break;
+        case 'addEnergy':
+          state.resources.maxEnergy += upgrade.effect.value;
+          break;
+        case 'multiplyEnergy':
+          state.resources.maxEnergy *= upgrade.effect.value;
+          break;
+      }
+    });
   }
   
   getUpgrades(): Upgrade[] {

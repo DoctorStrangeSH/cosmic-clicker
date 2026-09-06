@@ -25,6 +25,7 @@ import { MagicPanel } from './MagicPanel';
 import { ProfessionPanel } from './ProfessionPanel';
 import { TradeMarket } from './TradeMarket';
 import { SocialHub } from './SocialHub';
+import { SettingsPanel } from './SettingsPanel';
 
 interface FloatingNumber {
   id: number;
@@ -36,7 +37,7 @@ interface FloatingNumber {
 
 type ModalType = 'buildings' | 'upgrades' | 'pets' | 'fleet' | 'combat' | 
                  'craft' | 'dungeons' | 'magic' | 'professions' | 'trade' | 
-                 'social' | 'quests' | 'prestige' | null;
+                 'social' | 'quests' | 'prestige' | 'settings' | null;
 
 export const Game: React.FC = () => {
   const buildingSystemRef = useRef<BuildingSystem>();
@@ -108,6 +109,24 @@ export const Game: React.FC = () => {
     setActiveModal(null);
   };
   
+  const modalTitles: Record<ModalType, string> = {
+    buildings: '🏗️ Здания',
+    upgrades: '⬆️ Улучшения',
+    pets: '🐾 Питомцы',
+    fleet: '🚀 Флот',
+    combat: '⚔️ Битва',
+    craft: '🔨 Крафт',
+    dungeons: '🏰 Подземелья',
+    magic: '🔮 Магия',
+    professions: '👷 Профессии',
+    trade: '📊 Рынок',
+    social: '👥 Сообщество',
+    quests: '📋 Квесты',
+    prestige: '🌑 Престиж',
+    settings: '⚙️ Настройки',
+    null: ''
+  };
+  
   return (
     <div className="game-container">
       <ResourceDisplay />
@@ -148,6 +167,14 @@ export const Game: React.FC = () => {
         </AnimatePresence>
       </div>
       
+      {/* Настройки - маленькая кнопка сверху */}
+      <button 
+        className="settings-button"
+        onClick={() => openModal('settings')}
+      >
+        ⚙️
+      </button>
+      
       {/* Нижняя навигация */}
       <div className="bottom-nav">
         <button className="nav-button" onClick={() => openModal('buildings')}>
@@ -166,6 +193,10 @@ export const Game: React.FC = () => {
           <span className="icon">🚀</span>
           <span className="label">Флот</span>
         </button>
+        <button className="nav-button" onClick={() => openModal('magic')}>
+          <span className="icon">🔮</span>
+          <span className="label">Магия</span>
+        </button>
         <button className="nav-button" onClick={() => openModal('quests')}>
           <span className="icon">📋</span>
           <span className="label">Квесты</span>
@@ -173,6 +204,34 @@ export const Game: React.FC = () => {
         <button className="nav-button" onClick={() => openModal('prestige')}>
           <span className="icon">🌑</span>
           <span className="label">Престиж</span>
+        </button>
+      </div>
+      
+      {/* Вторая строка навигации */}
+      <div className="bottom-nav secondary">
+        <button className="nav-button" onClick={() => openModal('combat')}>
+          <span className="icon">⚔️</span>
+          <span className="label">Битва</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('craft')}>
+          <span className="icon">🔨</span>
+          <span className="label">Крафт</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('dungeons')}>
+          <span className="icon">🏰</span>
+          <span className="label">Подземелья</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('professions')}>
+          <span className="icon">👷</span>
+          <span className="label">Профессии</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('trade')}>
+          <span className="icon">📊</span>
+          <span className="label">Рынок</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('social')}>
+          <span className="icon">👥</span>
+          <span className="label">Друзья</span>
         </button>
       </div>
       
@@ -195,14 +254,7 @@ export const Game: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="modal-header">
-                <h3>
-                  {activeModal === 'buildings' && 'Здания'}
-                  {activeModal === 'upgrades' && 'Улучшения'}
-                  {activeModal === 'pets' && 'Питомцы'}
-                  {activeModal === 'fleet' && 'Флот'}
-                  {activeModal === 'quests' && 'Квесты'}
-                  {activeModal === 'prestige' && 'Престиж'}
-                </h3>
+                <h3>{modalTitles[activeModal]}</h3>
                 <button className="close-button" onClick={closeModal}>✕</button>
               </div>
               <div className="modal-body">
@@ -210,8 +262,16 @@ export const Game: React.FC = () => {
                 {activeModal === 'upgrades' && <UpgradePanel />}
                 {activeModal === 'pets' && <PetPanel />}
                 {activeModal === 'fleet' && <FleetPanel />}
+                {activeModal === 'combat' && <CombatView />}
+                {activeModal === 'craft' && <CraftPanel />}
+                {activeModal === 'dungeons' && <DungeonView />}
+                {activeModal === 'magic' && <MagicPanel />}
+                {activeModal === 'professions' && <ProfessionPanel />}
+                {activeModal === 'trade' && <TradeMarket />}
+                {activeModal === 'social' && <SocialHub />}
                 {activeModal === 'quests' && <QuestPanel />}
                 {activeModal === 'prestige' && <PrestigeModal />}
+                {activeModal === 'settings' && <SettingsPanel />}
               </div>
             </motion.div>
           </motion.div>

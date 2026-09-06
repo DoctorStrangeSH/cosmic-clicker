@@ -71,6 +71,32 @@ body {
 }
 
 /* ===========================================
+   КНОПКА НАСТРОЕК
+   =========================================== */
+.settings-button {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-button:active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ===========================================
    ПЛАНЕТА (центральная область)
    =========================================== */
 .planet-click-area {
@@ -80,7 +106,7 @@ body {
   justify-content: center;
   position: relative;
   cursor: pointer;
-  min-height: 200px;
+  min-height: 150px;
 }
 
 .planet {
@@ -97,8 +123,39 @@ body {
   transform: scale(0.95);
 }
 
+.planet-surface {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.planet-surface.level-1 {
+  background: radial-gradient(circle at 30% 30%, #8a7a6a, #5a4a3a);
+}
+
+.planet-surface.level-2 {
+  background: radial-gradient(circle at 30% 30%, #7a8a9a, #4a5a6a);
+}
+
+.planet-surface.level-3 {
+  background: radial-gradient(circle at 30% 30%, #9a7aaa, #6a4a7a);
+  box-shadow: inset 0 0 30px rgba(150, 100, 200, 0.8);
+}
+
+.planet-surface.level-4 {
+  background: radial-gradient(circle at 30% 30%, #7a9aaa, #4a6a7a);
+  box-shadow: inset 0 0 50px rgba(100, 150, 200, 1);
+}
+
+.planet-surface.level-5 {
+  background: radial-gradient(circle at 30% 30%, #aaaaaa, #6a6a6a);
+  box-shadow: inset 0 0 100px rgba(255, 255, 255, 1);
+}
+
 /* ===========================================
-   НИЖНЯЯ ПАНЕЛЬ КНОПОК
+   НИЖНЯЯ НАВИГАЦИЯ
    =========================================== */
 .bottom-nav {
   display: flex;
@@ -114,6 +171,23 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+.bottom-nav.secondary {
+  position: sticky;
+  bottom: 55px;
+  padding: 3px;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.bottom-nav.secondary .nav-button {
+  padding: 5px 8px;
+  font-size: 0.6em;
+  min-width: 50px;
+}
+
+.bottom-nav.secondary .icon {
+  font-size: 1.2em;
+}
+
 .nav-button {
   display: flex;
   flex-direction: column;
@@ -127,7 +201,7 @@ body {
   color: white;
   cursor: pointer;
   font-size: clamp(0.6rem, 2vw, 0.8rem);
-  min-width: 60px;
+  min-width: 55px;
   white-space: nowrap;
   transition: all 0.2s;
   -webkit-tap-highlight-color: transparent;
@@ -145,7 +219,7 @@ body {
 
 .nav-button .label {
   pointer-events: none;
-  font-size: 0.7em;
+  font-size: 0.65em;
 }
 
 /* ===========================================
@@ -166,7 +240,7 @@ body {
 
 .modal-content {
   width: 100%;
-  max-height: 90vh;
+  max-height: 85vh;
   background: rgba(20, 20, 50, 0.98);
   border-radius: 20px 20px 0 0;
   display: flex;
@@ -273,6 +347,11 @@ body {
   color: #aaa;
 }
 
+.special-effect {
+  color: #ffd700;
+  font-size: 0.6em !important;
+}
+
 .building-stats {
   text-align: right;
   pointer-events: none;
@@ -339,6 +418,15 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
+.upgrade-card.affordable {
+  background: rgba(100, 255, 100, 0.15);
+  border-color: rgba(100, 255, 100, 0.4);
+}
+
+.upgrade-card.expensive {
+  opacity: 0.7;
+}
+
 .upgrade-icon {
   font-size: 1.5em;
   min-width: 40px;
@@ -360,6 +448,11 @@ body {
   margin: 0;
   font-size: 0.7em;
   color: #aaa;
+}
+
+.upgrade-info .requires {
+  margin-top: 5px;
+  font-size: 0.6em;
 }
 
 .upgrade-cost {
@@ -421,6 +514,716 @@ body {
   font-size: 0.8em;
 }
 
+.pet-card button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   ФЛОТ
+   =========================================== */
+.fleet-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.ship-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+}
+
+.ship-icon {
+  font-size: 2em;
+  min-width: 50px;
+  text-align: center;
+}
+
+.ship-info {
+  flex: 1;
+}
+
+.ship-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 0.9em;
+}
+
+.ship-info p {
+  margin: 0;
+  font-size: 0.7em;
+  color: #aaa;
+}
+
+.ship-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.ship-actions button,
+.buy-ship {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 0.7em;
+}
+
+/* ===========================================
+   КВЕСТЫ
+   =========================================== */
+.quest-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.quest-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+}
+
+.quest-icon {
+  font-size: 2em;
+  min-width: 50px;
+  text-align: center;
+}
+
+.quest-info {
+  flex: 1;
+}
+
+.quest-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 0.9em;
+}
+
+.quest-info p {
+  margin: 0 0 10px 0;
+  font-size: 0.7em;
+  color: #aaa;
+}
+
+.quest-progress {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.5s;
+}
+
+.quest-reward {
+  font-weight: bold;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+/* ===========================================
+   ПРЕСТИЖ
+   =========================================== */
+.prestige-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.prestige-content h2 {
+  margin: 0 0 20px 0;
+  color: #f093fb;
+}
+
+.prestige-info {
+  margin: 20px 0;
+}
+
+.prestige-gain {
+  background: rgba(240, 147, 251, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px 0;
+}
+
+.gain-amount {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #f093fb;
+  margin: 10px 0;
+}
+
+.prestige-warning {
+  text-align: left;
+  background: rgba(255, 100, 100, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.prestige-warning ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.prestige-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.prestige-actions button {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.prestige-actions .cancel {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.prestige-actions .confirm {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.prestige-actions .confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   БОЕВАЯ СИСТЕМА
+   =========================================== */
+.combat-area {
+  text-align: center;
+  padding: 20px;
+}
+
+.enemy {
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.enemy-icon {
+  font-size: 4em;
+  margin-bottom: 10px;
+}
+
+.health-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.health-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4444 0%, #ff8888 100%);
+  transition: width 0.3s;
+}
+
+.attack-button {
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+/* ===========================================
+   КРАФТ
+   =========================================== */
+.resources-bar {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.resource-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  white-space: nowrap;
+  font-size: 0.8em;
+}
+
+.craft-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.craft-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+}
+
+.craft-icon {
+  font-size: 2em;
+  min-width: 50px;
+  text-align: center;
+}
+
+.craft-info {
+  flex: 1;
+}
+
+.craft-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 0.9em;
+}
+
+.craft-info p {
+  margin: 0;
+  font-size: 0.7em;
+  color: #aaa;
+}
+
+.ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.ingredient {
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  font-size: 0.7em;
+}
+
+.craft-button {
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.craft-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   ПОДЗЕМЕЛЬЯ
+   =========================================== */
+.dungeon-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.dungeon-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+}
+
+.dungeon-icon {
+  font-size: 2.5em;
+  min-width: 50px;
+  text-align: center;
+}
+
+.dungeon-info {
+  flex: 1;
+}
+
+.enter-dungeon {
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+/* ===========================================
+   МАГИЯ
+   =========================================== */
+.mana-bar {
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  margin: 10px 0;
+}
+
+.mana-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.5s;
+}
+
+.mana-bar span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.7em;
+  font-weight: bold;
+}
+
+.spell-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.spell-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+}
+
+.spell-icon {
+  font-size: 1.5em;
+  min-width: 40px;
+  text-align: center;
+}
+
+.spell-info {
+  flex: 1;
+}
+
+.spell-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 0.9em;
+}
+
+.spell-info p {
+  margin: 0;
+  font-size: 0.7em;
+  color: #aaa;
+}
+
+.cast-spell {
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+.cast-spell:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   ПРОФЕССИИ
+   =========================================== */
+.profession-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.profession-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.profession-icon {
+  font-size: 2em;
+  min-width: 50px;
+  text-align: center;
+}
+
+.profession-info {
+  flex: 1;
+}
+
+.profession-level {
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.profession-bonus {
+  font-size: 0.8em;
+  color: #4caf50;
+}
+
+.profession-progress {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 100%);
+}
+
+/* ===========================================
+   ТОРГОВЫЙ РЫНОК
+   =========================================== */
+.trade-tabs {
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.trade-tabs button {
+  flex: 1;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.trade-tabs button.active {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-bottom: 5px;
+  font-size: 0.8em;
+}
+
+.positive {
+  color: #4caf50;
+}
+
+.negative {
+  color: #f44336;
+}
+
+.offer-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.offer-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.offer-icon {
+  font-size: 2em;
+}
+
+.offer-price {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.buy-button {
+  padding: 8px 15px;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+/* ===========================================
+   СОЦИАЛЬНЫЙ ЦЕНТР
+   =========================================== */
+.social-tabs {
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.social-tabs button {
+  flex: 1;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.social-tabs button.active {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.create-clan {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+.clan-card,
+.friend-card,
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.clan-icon,
+.friend-avatar {
+  font-size: 2em;
+}
+
+.clan-info,
+.friend-info,
+.player-info {
+  flex: 1;
+}
+
+.join-clan,
+.add-friend {
+  padding: 8px 15px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.leaderboard-entry.rank-1 {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.leaderboard-entry.rank-2 {
+  background: rgba(192, 192, 192, 0.1);
+  border: 1px solid rgba(192, 192, 192, 0.3);
+}
+
+.leaderboard-entry.rank-3 {
+  background: rgba(205, 127, 50, 0.1);
+  border: 1px solid rgba(205, 127, 50, 0.3);
+}
+
+.rank {
+  font-size: 1.2em;
+  font-weight: bold;
+  min-width: 40px;
+}
+
+/* ===========================================
+   НАСТРОЙКИ
+   =========================================== */
+.settings-content {
+  padding: 20px;
+}
+
+.setting-item {
+  margin-bottom: 20px;
+}
+
+.setting-item label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.setting-item input[type="range"] {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.setting-item button {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.setting-item.danger button {
+  background: rgba(255, 100, 100, 0.2);
+  color: #ff6b6b;
+}
+
+.settings-info {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* ===========================================
    ВСПЛЫВАЮЩИЕ ЧИСЛА
    =========================================== */
@@ -440,6 +1243,89 @@ body {
 }
 
 /* ===========================================
+   ДОСТИЖЕНИЯ
+   =========================================== */
+.achievement-popup-container {
+  position: fixed;
+  top: 80px;
+  left: 10px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.achievement-popup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+  min-width: 200px;
+}
+
+.achievement-icon {
+  font-size: 1.5em;
+}
+
+/* ===========================================
+   ЗОЛОТЫЕ КРИСТАЛЛЫ
+   =========================================== */
+.golden-crystal {
+  position: absolute;
+  cursor: pointer;
+  z-index: 50;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+}
+
+.golden-timer {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8em;
+  color: #ffd700;
+}
+
+/* ===========================================
+   СОБЫТИЯ
+   =========================================== */
+.event-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 15px;
+  z-index: 250;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.event-notification.positive {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+}
+
+.event-notification.negative {
+  background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+}
+
+.event-notification.neutral {
+  background: linear-gradient(135deg, #2196F3 0%, #0b7dda 100%);
+}
+
+.event-icon {
+  font-size: 1.5em;
+}
+
+/* ===========================================
    АДАПТИВНОСТЬ
    =========================================== */
 @media (min-width: 768px) {
@@ -454,7 +1340,13 @@ body {
   }
   
   .building-list,
-  .upgrade-list {
+  .upgrade-list,
+  .fleet-list,
+  .quest-list,
+  .craft-list,
+  .spell-list,
+  .profession-list,
+  .dungeon-list {
     grid-template-columns: repeat(2, 1fr);
   }
   
@@ -465,12 +1357,18 @@ body {
 
 @media (min-width: 1024px) {
   .building-list,
-  .upgrade-list {
+  .upgrade-list,
+  .fleet-list,
+  .quest-list,
+  .craft-list,
+  .spell-list,
+  .profession-list,
+  .dungeon-list {
     grid-template-columns: repeat(3, 1fr);
   }
   
   .modal-content {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
     border-radius: 20px;
   }
