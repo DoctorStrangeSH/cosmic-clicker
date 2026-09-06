@@ -32,7 +32,7 @@
 
 ```bash
 # Клонируем репозиторий
-git clone https://github.com/yourusername/cosmic-clicker.git
+git clone https://github.com/DoctorStrangeSH/cosmic-clicker.git
 
 # Переходим в директорию
 cd cosmic-clicker

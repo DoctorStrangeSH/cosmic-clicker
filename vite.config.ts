@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/cosmic-clicker/', // ВАЖНО: замените на название вашего репозитория
+  base: '/cosmic-clicker/', // Для GitHub Pages с username DoctorStrangeSH
   server: {
     port: 3000,
     host: true
