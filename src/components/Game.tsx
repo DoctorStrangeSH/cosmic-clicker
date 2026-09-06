@@ -5,8 +5,6 @@ import { BuildingSystem } from '../systems/BuildingSystem';
 import { ClickSystem } from '../systems/ClickSystem';
 import { UpgradeSystem } from '../systems/UpgradeSystem';
 import { SaveSystem } from '../core/SaveSystem';
-import { SoundSystem } from '../systems/SoundSystem';
-import { PerformanceSystem } from '../systems/PerformanceSystem';
 import { eventBus } from '../core/EventBus';
 import { useGameStore } from '../core/GameState';
 import { Planet } from './Planet';
@@ -27,9 +25,6 @@ import { MagicPanel } from './MagicPanel';
 import { ProfessionPanel } from './ProfessionPanel';
 import { TradeMarket } from './TradeMarket';
 import { SocialHub } from './SocialHub';
-import { ParticleSystem } from './ParticleSystem';
-import { Starfield } from './Starfield';
-import { SettingsPanel } from './SettingsPanel';
 
 interface FloatingNumber {
   id: number;
@@ -37,17 +32,19 @@ interface FloatingNumber {
   x: number;
   y: number;
   isCritical: boolean;
-  age: 'new' | 'old';
 }
+
+type ModalType = 'buildings' | 'upgrades' | 'pets' | 'fleet' | 'combat' | 
+                 'craft' | 'dungeons' | 'magic' | 'professions' | 'trade' | 
+                 'social' | 'quests' | 'prestige' | null;
 
 export const Game: React.FC = () => {
   const buildingSystemRef = useRef<BuildingSystem>();
   const clickSystemRef = useRef<ClickSystem>();
   const upgradeSystemRef = useRef<UpgradeSystem>();
   const saveSystemRef = useRef<SaveSystem>();
-  const soundSystemRef = useRef<SoundSystem>();
-  const performanceSystemRef = useRef<PerformanceSystem>();
   const [floatingNumbers, setFloatingNumbers] = useState<FloatingNumber[]>([]);
+  const [activeModal, setActiveModal] = useState<ModalType>(null);
   const nextIdRef = useRef(0);
   
   const removeFloatingNumber = useCallback((id: number) => {
@@ -59,27 +56,17 @@ export const Game: React.FC = () => {
     clickSystemRef.current = new ClickSystem();
     upgradeSystemRef.current = new UpgradeSystem();
     saveSystemRef.current = new SaveSystem();
-    soundSystemRef.current = new SoundSystem();
-    performanceSystemRef.current = new PerformanceSystem();
     
     saveSystemRef.current.load();
     
     const gameLoop = new GameLoop(
       (deltaTime) => {
         useGameStore.getState().addEnergy(deltaTime);
-        useGameStore.setState((s) => {
-          s.stats.playTime += deltaTime;
-        });
       },
       () => {
         const production = buildingSystemRef.current?.getTotalProduction() || 0;
         useGameStore.getState().addCrystals(production);
         eventBus.emit('game:tick');
-        
-        // Оптимизация каждые 60 секунд
-        if (Math.floor(Date.now() / 1000) % 60 === 0) {
-          performanceSystemRef.current?.optimize();
-        }
       }
     );
     
@@ -92,19 +79,10 @@ export const Game: React.FC = () => {
         value: data.value,
         x: 50 + (Math.random() - 0.5) * 30,
         y: 50 + (Math.random() - 0.5) * 30,
-        isCritical: data.crit || false,
-        age: 'new'
+        isCritical: data.crit || false
       };
       
       setFloatingNumbers(prev => [...prev, newFloatingNumber]);
-      
-      setTimeout(() => {
-        setFloatingNumbers(prev => 
-          prev.map(fn => 
-            fn.id === id ? { ...fn, age: 'old' } : fn
-          )
-        );
-      }, 500);
       
       setTimeout(() => {
         removeFloatingNumber(id);
@@ -117,14 +95,21 @@ export const Game: React.FC = () => {
     };
   }, [removeFloatingNumber]);
   
-  const handlePlanetClick = () => {
+  const handlePlanetClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     eventBus.emit('click:perform');
+  };
+  
+  const openModal = (modal: ModalType) => {
+    setActiveModal(modal);
+  };
+  
+  const closeModal = () => {
+    setActiveModal(null);
   };
   
   return (
     <div className="game-container">
-      <Starfield />
-      <ParticleSystem />
       <ResourceDisplay />
       
       <div className="planet-click-area" onClick={handlePlanetClick}>
@@ -136,7 +121,6 @@ export const Game: React.FC = () => {
             <motion.div
               key={fn.id}
               className={`floating-number ${fn.isCritical ? 'critical' : ''}`}
-              data-age={fn.age}
               style={{ 
                 left: `${fn.x}%`, 
                 top: `${fn.y}%`,
@@ -164,22 +148,78 @@ export const Game: React.FC = () => {
         </AnimatePresence>
       </div>
       
-      <BuildingPanel />
-      <UpgradePanel />
-      <PrestigeModal />
+      {/* Нижняя навигация */}
+      <div className="bottom-nav">
+        <button className="nav-button" onClick={() => openModal('buildings')}>
+          <span className="icon">🏗️</span>
+          <span className="label">Здания</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('upgrades')}>
+          <span className="icon">⬆️</span>
+          <span className="label">Улучшения</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('pets')}>
+          <span className="icon">🐾</span>
+          <span className="label">Питомцы</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('fleet')}>
+          <span className="icon">🚀</span>
+          <span className="label">Флот</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('quests')}>
+          <span className="icon">📋</span>
+          <span className="label">Квесты</span>
+        </button>
+        <button className="nav-button" onClick={() => openModal('prestige')}>
+          <span className="icon">🌑</span>
+          <span className="label">Престиж</span>
+        </button>
+      </div>
+      
+      {/* Модальные окна */}
+      <AnimatePresence>
+        {activeModal && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal}
+          >
+            <motion.div
+              className="modal-content"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="modal-header">
+                <h3>
+                  {activeModal === 'buildings' && 'Здания'}
+                  {activeModal === 'upgrades' && 'Улучшения'}
+                  {activeModal === 'pets' && 'Питомцы'}
+                  {activeModal === 'fleet' && 'Флот'}
+                  {activeModal === 'quests' && 'Квесты'}
+                  {activeModal === 'prestige' && 'Престиж'}
+                </h3>
+                <button className="close-button" onClick={closeModal}>✕</button>
+              </div>
+              <div className="modal-body">
+                {activeModal === 'buildings' && <BuildingPanel />}
+                {activeModal === 'upgrades' && <UpgradePanel />}
+                {activeModal === 'pets' && <PetPanel />}
+                {activeModal === 'fleet' && <FleetPanel />}
+                {activeModal === 'quests' && <QuestPanel />}
+                {activeModal === 'prestige' && <PrestigeModal />}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
       <AchievementPopup />
-      <QuestPanel />
-      <PetPanel />
-      <FleetPanel />
-      <CombatView />
-      <CraftPanel />
-      <DungeonView />
-      <MagicPanel />
-      <ProfessionPanel />
-      <TradeMarket />
-      <SocialHub />
       <EventSystem />
-      <SettingsPanel />
     </div>
   );
 };

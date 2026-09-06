@@ -5,7 +5,7 @@ import { tier1Buildings } from '../config/buildings/tier1';
 
 export const BuildingPanel: React.FC = () => {
   return (
-    <div className="building-panel">
+    <div className="building-list">
       {tier1Buildings.map(building => (
         <BuildingCard key={building.id} building={building} />
       ))}
