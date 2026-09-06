@@ -169,15 +169,7 @@ export const Game: React.FC = () => {
         </AnimatePresence>
       </div>
       
-      {/* Настройки - маленькая кнопка сверху */}
-      <button 
-        className="settings-button"
-        onClick={() => openModal('settings')}
-      >
-        ⚙️
-      </button>
-      
-      {/* Нижняя навигация */}
+      {/* Одна строка навигации */}
       <div className="bottom-nav">
         <button className="nav-button" onClick={() => openModal('buildings')}>
           <span className="icon">🏗️</span>
@@ -195,49 +187,21 @@ export const Game: React.FC = () => {
           <span className="icon">🚀</span>
           <span className="label">Флот</span>
         </button>
-        <button className="nav-button" onClick={() => openModal('magic')}>
-          <span className="icon">🔮</span>
-          <span className="label">Магия</span>
-        </button>
-        <button className="nav-button" onClick={() => openModal('quests')}>
-          <span className="icon">📋</span>
-          <span className="label">Квесты</span>
-        </button>
-        <button className="nav-button" onClick={() => openModal('prestige')}>
-          <span className="icon">🌑</span>
-          <span className="label">Престиж</span>
-        </button>
-      </div>
-      
-      {/* Вторая строка навигации */}
-      <div className="bottom-nav secondary">
         <button className="nav-button" onClick={() => openModal('combat')}>
           <span className="icon">⚔️</span>
           <span className="label">Битва</span>
         </button>
-        <button className="nav-button" onClick={() => openModal('craft')}>
-          <span className="icon">🔨</span>
-          <span className="label">Крафт</span>
+        <button className="nav-button" onClick={() => openModal('magic')}>
+          <span className="icon">🔮</span>
+          <span className="label">Магия</span>
         </button>
-        <button className="nav-button" onClick={() => openModal('dungeons')}>
-          <span className="icon">🏰</span>
-          <span className="label">Подземелья</span>
-        </button>
-        <button className="nav-button" onClick={() => openModal('professions')}>
-          <span className="icon">👷</span>
-          <span className="label">Профессии</span>
-        </button>
-        <button className="nav-button" onClick={() => openModal('trade')}>
-          <span className="icon">📊</span>
-          <span className="label">Рынок</span>
-        </button>
-        <button className="nav-button" onClick={() => openModal('social')}>
-          <span className="icon">👥</span>
-          <span className="label">Друзья</span>
+        <button className="nav-button" onClick={() => openModal('settings')}>
+          <span className="icon">⚙️</span>
+          <span className="label">Ещё</span>
         </button>
       </div>
       
-      {/* Модальные окна */}
+      {/* Модальное окно */}
       <AnimatePresence>
         {activeModal && (
           <motion.div

@@ -2,32 +2,30 @@ import { useGameStore } from './GameState';
 
 export class SaveSystem {
   private readonly SAVE_KEY = 'cosmic_clicker_save';
-  private readonly AUTO_SAVE_INTERVAL = 30000;
   
   constructor() {
     this.initializeAutoSave();
   }
   
   save() {
-    const state = useGameStore.getState();
-    const saveData = {
-      version: 1,
-      timestamp: Date.now(),
-      data: {
-        resources: state.resources,
-        stats: state.stats,
-        multipliers: state.multipliers,
-        buildings: state.buildings,
-        upgrades: state.upgrades,
-        achievements: state.achievements,
-        pets: state.pets,
-        ships: state.ships,
-      }
-    };
-    
     try {
+      const state = useGameStore.getState();
+      const saveData = {
+        version: 1,
+        timestamp: Date.now(),
+        data: {
+          resources: state.resources,
+          stats: state.stats,
+          multipliers: state.multipliers,
+          buildings: state.buildings,
+          upgrades: state.upgrades,
+          achievements: state.achievements,
+          pets: state.pets,
+          ships: state.ships,
+        }
+      };
+      
       localStorage.setItem(this.SAVE_KEY, JSON.stringify(saveData));
-      console.log('Game saved');
     } catch (error) {
       console.error('Failed to save game:', error);
     }
@@ -51,7 +49,6 @@ export class SaveSystem {
         state.ships = parsed.data.ships;
       });
       
-      console.log('Game loaded');
       return true;
     } catch (error) {
       console.error('Failed to load save:', error);
@@ -65,12 +62,21 @@ export class SaveSystem {
   }
   
   private initializeAutoSave() {
+    // Сохраняем каждые 5 секунд
     setInterval(() => {
       this.save();
-    }, this.AUTO_SAVE_INTERVAL);
+    }, 5000);
     
+    // Сохраняем при закрытии
     window.addEventListener('beforeunload', () => {
       this.save();
+    });
+    
+    // Сохраняем при скрытии вкладки
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        this.save();
+      }
     });
   }
 }

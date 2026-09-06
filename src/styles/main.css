@@ -1402,3 +1402,25 @@ body {
     max-height: 100vh;
   }
 }
+
+.settings-menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.settings-menu-item {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9em;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-menu-item:active {
+  background: rgba(255, 255, 255, 0.3);
+}
