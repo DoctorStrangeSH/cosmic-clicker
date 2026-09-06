@@ -1,0 +1,1913 @@
+/* ===========================================
+   COSMIC CLICKER - MAIN STYLES
+   =========================================== */
+
+/* Базовые стили */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: #0a0a2e;
+  color: #fff;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(180deg, #0a0a2e 0%, #1a1a3e 100%);
+}
+
+.game-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===========================================
+   ПЛАНЕТА
+   =========================================== */
+.planet-click-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.planet-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.planet {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: relative;
+  background: radial-gradient(circle at 30% 30%, #6a6a9a, #3a3a6a);
+  box-shadow: 0 0 50px rgba(100, 100, 200, 0.5);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.planet-surface {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.planet-surface.level-1 {
+  background: radial-gradient(circle at 30% 30%, #8a7a6a, #5a4a3a);
+}
+
+.planet-surface.level-2 {
+  background: radial-gradient(circle at 30% 30%, #7a8a9a, #4a5a6a);
+}
+
+.planet-surface.level-3 {
+  background: radial-gradient(circle at 30% 30%, #9a7aaa, #6a4a7a);
+  box-shadow: inset 0 0 30px rgba(150, 100, 200, 0.8);
+}
+
+.planet-surface.level-4 {
+  background: radial-gradient(circle at 30% 30%, #7a9aaa, #4a6a7a);
+  box-shadow: inset 0 0 50px rgba(100, 150, 200, 1);
+}
+
+.planet-surface.level-5 {
+  background: radial-gradient(circle at 30% 30%, #aaaaaa, #6a6a6a);
+  box-shadow: inset 0 0 100px rgba(255, 255, 255, 1);
+}
+
+/* ===========================================
+   РЕСУРСЫ
+   =========================================== */
+.resource-display {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.resource {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.resource-icon {
+  font-size: 1.5em;
+}
+
+/* ===========================================
+   ЗДАНИЯ
+   =========================================== */
+.building-panel {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.building-card {
+  min-width: 150px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.building-card.affordable {
+  background: rgba(100, 255, 100, 0.2);
+  border: 1px solid rgba(100, 255, 100, 0.5);
+}
+
+.building-card.expensive {
+  background: rgba(255, 100, 100, 0.1);
+  border: 1px solid rgba(255, 100, 100, 0.3);
+}
+
+.building-icon {
+  font-size: 2em;
+  text-align: center;
+}
+
+.building-info {
+  text-align: center;
+}
+
+.building-info h3 {
+  font-size: 0.9em;
+  margin: 5px 0;
+}
+
+.building-info p {
+  font-size: 0.7em;
+  color: #aaa;
+}
+
+.special-effect {
+  color: #ffd700;
+  font-size: 0.6em !important;
+}
+
+.building-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 0.8em;
+}
+
+/* ===========================================
+   ВСПЛЫВАЮЩИЕ ЧИСЛА
+   =========================================== */
+.floating-number {
+  position: absolute;
+  pointer-events: none;
+  font-weight: bold;
+  font-size: 1.5em;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  z-index: 1000;
+  will-change: transform, opacity;
+}
+
+.floating-number.critical {
+  color: #ff4444;
+  font-size: 2em;
+  text-shadow: 0 0 15px rgba(255, 68, 68, 1);
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px) scale(1.5);
+  }
+}
+
+@keyframes floatUpCritical {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50px) scale(1.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-150px) scale(2);
+  }
+}
+
+/* ===========================================
+   КНОПКИ ПЕРЕКЛЮЧЕНИЯ ПАНЕЛЕЙ
+   =========================================== */
+.upgrade-toggle {
+  position: absolute;
+  bottom: 150px;
+  right: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.prestige-toggle {
+  position: absolute;
+  bottom: 150px;
+  left: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.quest-toggle {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.pet-toggle {
+  position: absolute;
+  bottom: 200px;
+  right: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.fleet-toggle {
+  position: absolute;
+  bottom: 200px;
+  left: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.combat-toggle {
+  position: absolute;
+  bottom: 250px;
+  right: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.craft-toggle {
+  position: absolute;
+  bottom: 250px;
+  left: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.dungeon-toggle {
+  position: absolute;
+  bottom: 300px;
+  right: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.magic-toggle {
+  position: absolute;
+  bottom: 300px;
+  left: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.profession-toggle {
+  position: absolute;
+  bottom: 350px;
+  left: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.trade-toggle {
+  position: absolute;
+  bottom: 350px;
+  right: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.social-toggle {
+  position: absolute;
+  bottom: 400px;
+  left: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.settings-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2em;
+  z-index: 100;
+}
+
+/* ===========================================
+   ПАНЕЛЬ УЛУЧШЕНИЙ
+   =========================================== */
+.upgrade-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70%;
+  background: rgba(20, 20, 50, 0.95);
+  border-top: 2px solid rgba(100, 100, 200, 0.5);
+  border-radius: 20px 20px 0 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.upgrade-tabs {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.upgrade-tabs button {
+  flex: 1;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.3s;
+}
+
+.upgrade-tabs button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.upgrade-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upgrade-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.upgrade-card.affordable {
+  background: rgba(100, 255, 100, 0.15);
+  border: 1px solid rgba(100, 255, 100, 0.4);
+}
+
+.upgrade-card.expensive {
+  background: rgba(255, 100, 100, 0.1);
+  border: 1px solid rgba(255, 100, 100, 0.2);
+  opacity: 0.7;
+}
+
+.upgrade-icon {
+  font-size: 2em;
+  min-width: 50px;
+  text-align: center;
+}
+
+.upgrade-info {
+  flex: 1;
+}
+
+.upgrade-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 1em;
+}
+
+.upgrade-info p {
+  margin: 0;
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.upgrade-info .requires {
+  margin-top: 5px;
+  font-size: 0.7em;
+}
+
+.upgrade-cost {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* ===========================================
+   МОДАЛЬНОЕ ОКНО ПРЕСТИЖА
+   =========================================== */
+.prestige-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.prestige-content {
+  background: linear-gradient(135deg, #1a1a3e 0%, #2a2a5e 100%);
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.prestige-content h2 {
+  margin: 0 0 20px 0;
+  color: #f093fb;
+}
+
+.prestige-info {
+  margin: 20px 0;
+}
+
+.prestige-gain {
+  background: rgba(240, 147, 251, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px 0;
+}
+
+.gain-amount {
+  font-size: 3em;
+  font-weight: bold;
+  color: #f093fb;
+  margin: 10px 0;
+}
+
+.prestige-warning {
+  text-align: left;
+  background: rgba(255, 100, 100, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.prestige-warning ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.prestige-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.prestige-actions button {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.prestige-actions .cancel {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.prestige-actions .confirm {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.prestige-actions .confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   ВСПЛЫВАЮЩИЕ ДОСТИЖЕНИЯ
+   =========================================== */
+.achievement-popup-container {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.achievement-popup {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+  min-width: 250px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.achievement-icon {
+  font-size: 2em;
+}
+
+.achievement-info h4 {
+  margin: 0;
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
+.achievement-info p {
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.achievement-info small {
+  opacity: 0.8;
+}
+
+/* ===========================================
+   ПАНЕЛЬ КВЕСТОВ
+   =========================================== */
+.quest-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80%;
+  max-width: 350px;
+  background: rgba(20, 20, 50, 0.95);
+  border-left: 2px solid rgba(100, 100, 200, 0.5);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.quest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.quest-header h3 {
+  margin: 0;
+}
+
+.quest-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.quest-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quest-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+}
+
+.quest-icon {
+  font-size: 2em;
+}
+
+.quest-info {
+  flex: 1;
+}
+
+.quest-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 0.9em;
+}
+
+.quest-info p {
+  margin: 0 0 10px 0;
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.quest-progress {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.5s;
+}
+
+.quest-reward {
+  font-weight: bold;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+/* ===========================================
+   ЗОЛОТЫЕ КРИСТАЛЛЫ
+   =========================================== */
+.golden-crystal {
+  position: absolute;
+  cursor: pointer;
+  z-index: 50;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+  animation: glow 2s ease-in-out infinite;
+}
+
+.golden-timer {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8em;
+  color: #ffd700;
+}
+
+/* ===========================================
+   СОБЫТИЯ
+   =========================================== */
+.event-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 25px;
+  border-radius: 15px;
+  z-index: 250;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.event-notification.positive {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+}
+
+.event-notification.negative {
+  background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+}
+
+.event-notification.neutral {
+  background: linear-gradient(135deg, #2196F3 0%, #0b7dda 100%);
+}
+
+.event-icon {
+  font-size: 2em;
+}
+
+.event-info h4 {
+  margin: 0;
+  font-size: 1em;
+}
+
+.event-info p {
+  margin: 5px 0 0 0;
+  font-size: 0.8em;
+  opacity: 0.9;
+}
+
+/* ===========================================
+   ПАНЕЛЬ ПИТОМЦЕВ
+   =========================================== */
+.pet-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: rgba(20, 20, 50, 0.95);
+  border-top: 2px solid rgba(246, 211, 101, 0.5);
+  border-radius: 20px 20px 0 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.pet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.pet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.pet-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+}
+
+.pet-icon {
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+
+.pet-card h4 {
+  margin: 5px 0;
+}
+
+.pet-card p {
+  margin: 5px 0;
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.pet-card button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+/* ===========================================
+   ПАНЕЛЬ ФЛОТА
+   =========================================== */
+.fleet-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: rgba(20, 20, 50, 0.95);
+  border-top: 2px solid rgba(132, 250, 176, 0.5);
+  border-radius: 20px 20px 0 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.fleet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.fleet-list {
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.ship-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.ship-icon {
+  font-size: 2em;
+}
+
+.ship-info {
+  flex: 1;
+}
+
+.ship-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.ship-actions button,
+.buy-ship {
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 0.8em;
+  transition: all 0.3s;
+}
+
+.ship-actions button:hover,
+.buy-ship:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.buy-ship:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   БОЕВАЯ СИСТЕМА
+   =========================================== */
+.combat-view {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 400px;
+  background: rgba(20, 20, 50, 0.95);
+  border-radius: 20px;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.combat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.combat-area {
+  padding: 20px;
+  text-align: center;
+}
+
+.enemy {
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.enemy-icon {
+  font-size: 5em;
+  margin-bottom: 10px;
+}
+
+.health-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.health-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4444 0%, #ff8888 100%);
+  transition: width 0.3s;
+}
+
+.attack-button {
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(250, 112, 154, 0.4);
+}
+
+.wave-complete {
+  padding: 40px;
+  text-align: center;
+}
+
+/* ===========================================
+   ПАНЕЛЬ КРАФТА
+   =========================================== */
+.craft-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: rgba(20, 20, 50, 0.95);
+  border-top: 2px solid rgba(168, 237, 234, 0.5);
+  border-radius: 20px 20px 0 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.craft-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.resources-bar {
+  display: flex;
+  gap: 10px;
+  padding: 10px 15px;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.resource-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  white-space: nowrap;
+}
+
+.craft-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.craft-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.craft-icon {
+  font-size: 2em;
+}
+
+.craft-info {
+  flex: 1;
+}
+
+.ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.ingredient {
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  font-size: 0.8em;
+}
+
+.craft-button {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.craft-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   ПОДЗЕМЕЛЬЯ
+   =========================================== */
+.dungeon-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+
+.dungeon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(20, 20, 50, 0.95);
+}
+
+.dungeon-list {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.dungeon-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.dungeon-icon {
+  font-size: 3em;
+}
+
+.dungeon-info {
+  flex: 1;
+}
+
+.enter-dungeon {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.dungeon-fight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.dungeon-progress {
+  margin-bottom: 30px;
+}
+
+.dungeon-enemy {
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.dungeon-complete {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* ===========================================
+   ПАНЕЛЬ МАГИИ
+   =========================================== */
+.magic-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: rgba(20, 20, 50, 0.95);
+  border-top: 2px solid rgba(210, 153, 194, 0.5);
+  border-radius: 20px 20px 0 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.magic-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.mana-bar {
+  flex: 1;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.mana-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.5s;
+}
+
+.mana-bar span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.spell-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.spell-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.spell-icon {
+  font-size: 2em;
+}
+
+.spell-info {
+  flex: 1;
+}
+
+.cast-spell {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+.cast-spell:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   ПАНЕЛЬ ПРОФЕССИЙ
+   =========================================== */
+.profession-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: rgba(20, 20, 50, 0.95);
+  border-top: 2px solid rgba(255, 154, 158, 0.5);
+  border-radius: 20px 20px 0 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.profession-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.profession-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.profession-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.profession-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.profession-icon {
+  font-size: 2em;
+}
+
+.profession-info {
+  flex: 1;
+}
+
+.profession-level {
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.profession-bonus {
+  font-size: 0.9em;
+  color: #4caf50;
+}
+
+.profession-progress {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 100%);
+  transition: width 0.5s;
+}
+
+.skills-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80%;
+  background: rgba(20, 20, 50, 0.98);
+  border-radius: 20px 20px 0 0;
+  z-index: 95;
+  display: flex;
+  flex-direction: column;
+}
+
+.skills-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.skills-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.skill-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.skill-card.unlocked {
+  background: rgba(100, 255, 100, 0.1);
+  border: 1px solid rgba(100, 255, 100, 0.3);
+}
+
+.skill-card.locked {
+  opacity: 0.7;
+}
+
+.skill-icon {
+  font-size: 1.5em;
+}
+
+.skill-info {
+  flex: 1;
+}
+
+.skill-status {
+  font-size: 1.5em;
+}
+
+/* ===========================================
+   ТОРГОВЫЙ РЫНОК
+   =========================================== */
+.trade-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: rgba(20, 20, 50, 0.95);
+  border-top: 2px solid rgba(250, 112, 154, 0.5);
+  border-radius: 20px 20px 0 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.trade-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.trade-tabs {
+  display: flex;
+  gap: 10px;
+  padding: 10px 15px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.trade-tabs button {
+  flex: 1;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.trade-tabs button.active {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.market-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.prices-section {
+  margin-bottom: 20px;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
+.positive {
+  color: #4caf50;
+}
+
+.negative {
+  color: #f44336;
+}
+
+.offer-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.offer-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.offer-icon {
+  font-size: 2em;
+}
+
+.offer-price {
+  font-weight: bold;
+}
+
+.buy-button {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* ===========================================
+   СОЦИАЛЬНЫЙ ЦЕНТР
+   =========================================== */
+.social-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: rgba(20, 20, 50, 0.95);
+  border-top: 2px solid rgba(168, 237, 234, 0.5);
+  border-radius: 20px 20px 0 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.social-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.social-tabs {
+  display: flex;
+  gap: 10px;
+  padding: 10px 15px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.social-tabs button {
+  flex: 1;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.social-tabs button.active {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.clan-content,
+.friends-content,
+.leaderboard-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.create-clan {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+.clan-card,
+.friend-card,
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.clan-icon,
+.friend-avatar {
+  font-size: 2em;
+}
+
+.clan-info,
+.friend-info,
+.player-info {
+  flex: 1;
+}
+
+.join-clan,
+.add-friend {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.join-clan:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.leaderboard-entry.rank-1 {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.leaderboard-entry.rank-2 {
+  background: rgba(192, 192, 192, 0.1);
+  border: 1px solid rgba(192, 192, 192, 0.3);
+}
+
+.leaderboard-entry.rank-3 {
+  background: rgba(205, 127, 50, 0.1);
+  border: 1px solid rgba(205, 127, 50, 0.3);
+}
+
+.rank {
+  font-size: 1.5em;
+  font-weight: bold;
+  min-width: 50px;
+}
+
+.player-stats {
+  text-align: right;
+  font-size: 0.8em;
+}
+
+/* ===========================================
+   ПАНЕЛЬ НАСТРОЕК
+   =========================================== */
+.settings-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  background: rgba(20, 20, 50, 0.95);
+  border-radius: 20px;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.settings-content {
+  padding: 20px;
+}
+
+.setting-item {
+  margin-bottom: 20px;
+}
+
+.setting-item label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.setting-item input[type="range"] {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.setting-item button {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.setting-item.danger button {
+  background: rgba(255, 100, 100, 0.2);
+  color: #ff6b6b;
+}
+
+.settings-info {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settings-info p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+/* ===========================================
+   АНИМАЦИИ
+   =========================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* ===========================================
+   РЕЖИМ НИЗКОЙ ПРОИЗВОДИТЕЛЬНОСТИ
+   =========================================== */
+.low-performance {
+  --particle-count: 10;
+}
+
+.low-performance .floating-number {
+  animation: none !important;
+  transition: none !important;
+}
+
+.low-performance .particle {
+  display: none;
+}
+
+/* ===========================================
+   АДАПТИВНЫЙ ДИЗАЙН
+   =========================================== */
+@media (max-width: 768px) {
+  .building-panel {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  
+  .building-card {
+    min-width: 120px;
+  }
+  
+  .upgrade-panel,
+  .pet-panel,
+  .fleet-panel,
+  .craft-panel,
+  .magic-panel,
+  .profession-panel,
+  .trade-panel,
+  .social-panel {
+    height: 80%;
+  }
+  
+  .floating-number {
+    font-size: 1.2em;
+  }
+  
+  .floating-number.critical {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 480px) {
+  .building-panel {
+    gap: 5px;
+    padding: 5px;
+  }
+  
+  .building-card {
+    min-width: 100px;
+    padding: 5px;
+  }
+  
+  .building-icon {
+    font-size: 1.5em;
+  }
+  
+  .building-info h3 {
+    font-size: 0.8em;
+  }
+  
+  .resource-display {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .resource {
+    font-size: 1em;
+  }
+  
+  .upgrade-toggle,
+  .prestige-toggle,
+  .pet-toggle,
+  .fleet-toggle,
+  .combat-toggle,
+  .craft-toggle,
+  .dungeon-toggle,
+  .magic-toggle,
+  .profession-toggle,
+  .trade-toggle,
+  .social-toggle {
+    padding: 8px 15px;
+    font-size: 0.8em;
+  }
+  
+  .settings-toggle {
+    padding: 8px;
+    font-size: 1em;
+  }
+}
