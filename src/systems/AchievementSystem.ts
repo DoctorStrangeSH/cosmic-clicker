@@ -1,6 +1,7 @@
 import { useGameStore } from '../core/GameState';
 import { eventBus } from '../core/EventBus';
-import { Achievement } from '../config/achievements/clickAchievements';
+import { Achievement, clickAchievements } from '../config/achievements/clickAchievements';
+import { collectionAchievements, socialAchievements, timeAchievements, secretAchievements } from '../config/achievements/newAchievements';
 
 export class AchievementSystem {
   private achievements: Achievement[] = [];
@@ -11,10 +12,13 @@ export class AchievementSystem {
   }
   
   private loadAchievements() {
-    const context = import.meta.glob('../config/achievements/*.ts', { eager: true });
-    Object.values(context).forEach((module: any) => {
-      this.achievements.push(...module.default);
-    });
+    this.achievements = [
+      ...clickAchievements,
+      ...collectionAchievements,
+      ...socialAchievements,
+      ...timeAchievements,
+      ...secretAchievements
+    ];
   }
   
   private initializeListeners() {

@@ -8,7 +8,7 @@ export interface Achievement {
     type: 'crystals' | 'quantumShards' | 'darkMatter';
     amount: number;
   };
-  category: 'click' | 'resource' | 'building' | 'secret';
+  category: 'click' | 'resource' | 'building' | 'secret' | 'collection' | 'social' | 'time';
   secret?: boolean;
 }
 

@@ -1,6 +1,7 @@
 import { useGameStore } from '../core/GameState';
 import { eventBus } from '../core/EventBus';
 import { Planet } from '../config/planets/CrystallisX9';
+import { CrystallisX9 } from '../config/planets/CrystallisX9';
 
 export class PlanetSystem {
   private planets: Planet[] = [];
@@ -12,13 +13,7 @@ export class PlanetSystem {
   }
   
   private loadPlanets() {
-    const context = import.meta.glob('../config/planets/*.ts', { eager: true });
-    Object.values(context).forEach((module: any) => {
-      const planet = module.default;
-      if (planet) {
-        this.planets.push(planet);
-      }
-    });
+    this.planets = [CrystallisX9];
     
     // Устанавливаем стартовую планету
     this.currentPlanet = this.planets.find(p => p.unlockCost === 0) || null;

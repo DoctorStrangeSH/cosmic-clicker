@@ -7,7 +7,7 @@ import { autoUpgrades } from '../config/upgrades/autoUpgrades';
 
 export class UpgradeSystem {
   private upgrades: Upgrade[] = [];
-  private autoClickInterval: NodeJS.Timeout | null = null;
+  private autoClickInterval: number | null = null;
   
   constructor() {
     this.loadUpgrades();
@@ -35,7 +35,11 @@ export class UpgradeSystem {
   }
   
   private initializeAutoClickers() {
-    setInterval(() => {
+    if (this.autoClickInterval) {
+      clearInterval(this.autoClickInterval);
+    }
+    
+    this.autoClickInterval = setInterval(() => {
       const state = useGameStore.getState();
       
       if (state.upgrades['autoclicker_1']) {
@@ -116,6 +120,9 @@ export class UpgradeSystem {
       case 'multiplyEnergy':
         state.resources.maxEnergy *= upgrade.effect.value;
         break;
+      case 'autoClick':
+        this.initializeAutoClickers();
+        break;
     }
   }
   
@@ -148,7 +155,7 @@ export class UpgradeSystem {
         }
       }
       
-      return state.resources.crystals >= upgrade.cost * 0.1; // Показываем если есть хотя бы 10% стоимости
+      return state.resources.crystals >= upgrade.cost * 0.1;
     });
   }
 }
