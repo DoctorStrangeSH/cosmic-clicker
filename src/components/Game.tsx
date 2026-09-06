@@ -37,7 +37,7 @@ interface FloatingNumber {
 
 type ModalType = 'buildings' | 'upgrades' | 'pets' | 'fleet' | 'combat' | 
                  'craft' | 'dungeons' | 'magic' | 'professions' | 'trade' | 
-                 'social' | 'quests' | 'prestige' | 'settings' | null;
+                 'social' | 'quests' | 'prestige' | 'settings';
 
 export const Game: React.FC = () => {
   const buildingSystemRef = useRef<BuildingSystem>();
@@ -45,7 +45,7 @@ export const Game: React.FC = () => {
   const upgradeSystemRef = useRef<UpgradeSystem>();
   const saveSystemRef = useRef<SaveSystem>();
   const [floatingNumbers, setFloatingNumbers] = useState<FloatingNumber[]>([]);
-  const [activeModal, setActiveModal] = useState<ModalType>(null);
+  const [activeModal, setActiveModal] = useState<ModalType | null>(null);
   const nextIdRef = useRef(0);
   
   const removeFloatingNumber = useCallback((id: number) => {
@@ -109,22 +109,24 @@ export const Game: React.FC = () => {
     setActiveModal(null);
   };
   
-  const modalTitles: Record<ModalType, string> = {
-    buildings: '🏗️ Здания',
-    upgrades: '⬆️ Улучшения',
-    pets: '🐾 Питомцы',
-    fleet: '🚀 Флот',
-    combat: '⚔️ Битва',
-    craft: '🔨 Крафт',
-    dungeons: '🏰 Подземелья',
-    magic: '🔮 Магия',
-    professions: '👷 Профессии',
-    trade: '📊 Рынок',
-    social: '👥 Сообщество',
-    quests: '📋 Квесты',
-    prestige: '🌑 Престиж',
-    settings: '⚙️ Настройки',
-    null: ''
+  const getModalTitle = (modal: ModalType): string => {
+    const titles: Record<ModalType, string> = {
+      buildings: '🏗️ Здания',
+      upgrades: '⬆️ Улучшения',
+      pets: '🐾 Питомцы',
+      fleet: '🚀 Флот',
+      combat: '⚔️ Битва',
+      craft: '🔨 Крафт',
+      dungeons: '🏰 Подземелья',
+      magic: '🔮 Магия',
+      professions: '👷 Профессии',
+      trade: '📊 Рынок',
+      social: '👥 Сообщество',
+      quests: '📋 Квесты',
+      prestige: '🌑 Престиж',
+      settings: '⚙️ Настройки'
+    };
+    return titles[modal];
   };
   
   return (
@@ -254,7 +256,7 @@ export const Game: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="modal-header">
-                <h3>{modalTitles[activeModal]}</h3>
+                <h3>{getModalTitle(activeModal)}</h3>
                 <button className="close-button" onClick={closeModal}>✕</button>
               </div>
               <div className="modal-body">
